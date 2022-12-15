@@ -7,6 +7,7 @@ import sys
 import argparse
 import json
 import pdb
+from pathlib import Path
 import random
 import re
 import string
@@ -24,9 +25,7 @@ from tqdm import tqdm
 ################################################################################
 
 ################################################################################
-API_KEY = "" # insert your API key here
-API_HEADER = {"x-api-key": API_KEY}
-
+API_KEY = ""  # insert your API key here
 API_CALL_LIMIT = 0.1  # in seconds
 
 
@@ -38,9 +37,7 @@ def author_to_bibformat(author: str) -> str:
 
 
 def preserve_uppercase(title: str) -> str:
-    return "".join(
-        c if c not in string.ascii_uppercase else ("{" + c + "}") for c in title
-    )
+    return "".join(c if c not in string.ascii_uppercase else ("{" + c + "}") for c in title)
 
 
 def filter_ascii(word: str) -> str:
@@ -59,6 +56,7 @@ def filter_ascii_replace_with_space(word: str) -> str:
 
 ################################################################################
 def _lookup(title: str, **options) -> dict:
+    global API_KEY
     url = "http://api.semanticscholar.org/graph/v1/paper/search"
     fields = [
         "title",
@@ -77,7 +75,7 @@ def _lookup(title: str, **options) -> dict:
     ret = requests.get(
         url,
         params=[("query", title), ("fields", fields)],
-        headers=API_HEADER,
+        headers={"x-api-key": API_KEY},
         timeout=10.0,
     )
     assert ret.ok
@@ -116,9 +114,7 @@ def format_bib(paper: dict) -> str:
     if options["add_url"]:
         body["url"] = paper["url"]
     return "\n".join(
-        [f"{preamble}{key},"]
-        + [f"  {k} = {{{v}}}," for (k, v) in body.items()]
-        + ["}"]
+        [f"{preamble}{key},"] + [f"  {k} = {{{v}}}," for (k, v) in body.items()] + ["}"]
     )
 
 
@@ -212,14 +208,19 @@ def write_output(output, fname=sys.stdout):
 
 ################################################################################
 if __name__ == "__main__":
-    assert len(API_KEY) > 0, "You need to input a valid API key at the top of the file."
+    if len(API_KEY) == 0:
+        api_path = Path(__file__).parent / "api_key.txt"
+        msg = (
+            "You need to paste an API key into this file at the top "
+            + "or create a file at the root of repository called 'api_key.txt'"
+        )
+        assert api_path.exists(), msg
+        API_KEY = api_path.read_text().strip()
 
     # parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--input-file", type=str, required=True)
-    parser.add_argument(
-        "-o", "--output-file", type=str, default=sys.stdout, required=False
-    )
+    parser.add_argument("-o", "--output-file", type=str, default=sys.stdout, required=False)
     parser.add_argument("--add-url", action="store_true", default=False)
     args = parser.parse_args()
 
@@ -237,11 +238,7 @@ if __name__ == "__main__":
         for title in lines:
             try:
                 output.append(
-                    format_bib(
-                        _lookup(
-                            filter_ascii_replace_with_space(title), **options
-                        )[0]
-                    )
+                    format_bib(_lookup(filter_ascii_replace_with_space(title), **options)[0])
                 )
             except Exception:
                 print()
@@ -251,13 +248,7 @@ if __name__ == "__main__":
         write_output("\n".join(output), args.output_file)
     else:  # single title from the command line
         try:
-            print(
-                format_bib(
-                    _lookup(
-                        filter_ascii_replace_with_space(path.name), **options
-                    )[0]
-                )
-            )
+            print(format_bib(_lookup(filter_ascii_replace_with_space(path.name), **options)[0]))
         except Exception as e:
             print()
             traceback.print_exc()

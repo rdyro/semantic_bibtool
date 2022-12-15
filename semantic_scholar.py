@@ -6,7 +6,6 @@ from __future__ import annotations
 import sys
 import argparse
 import json
-import pdb
 from pathlib import Path
 import random
 import re
@@ -18,7 +17,6 @@ from pathlib import Path
 from pprint import pprint
 from typing import Optional, Union
 
-import pandas as pd
 import requests
 from tqdm import tqdm
 
@@ -156,6 +154,8 @@ def rate_throttler(rate_queue):
 
 
 def bib_from_zotero(fname, **options):
+    import pandas as pd
+
     df = pd.read_csv(fname)
 
     # query the server

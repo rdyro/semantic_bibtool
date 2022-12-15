@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import sys
 import argparse
+from argparse import RawTextHelpFormatter
 import json
 from pathlib import Path
 import random
@@ -211,8 +212,8 @@ if __name__ == "__main__":
     if len(API_KEY) == 0:
         api_path = Path(__file__).parent / "api_key.txt"
         msg = (
-            "You need to paste an API key into this file at the top "
-            + "or create a file at the root of repository called 'api_key.txt'"
+            "You need to paste an API key into this file at the top"
+            + " or create a file at the root of repository called 'api_key.txt'"
         )
         assert api_path.exists(), msg
         API_KEY = api_path.read_text().strip()
@@ -221,17 +222,21 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="A tool for converting paper titles"
         + " (with optional author names as keywords) to"
-        + " formatted latex bib format.",
-        epilog="Example use:" + '\n\t$ python3 semantic_scholar.py -i "attention is all you need"',
+        + " formatted latex bib format."
+        + "\n\nYou need to obtain an API key for Semantic Scholar, which you"
+        + " can request here: https://www.semanticscholar.org/product/api#Partner-Form",
+        epilog='Example use:\n\t$ python3 semantic_scholar.py -i "attention is all you need"',
+        formatter_class=RawTextHelpFormatter,
     )
     parser.add_argument(
         "-i",
         "--input",
         type=str,
         required=True,
-        help="input, either: a (quoted) string;"
-        + " a .txt file with one title per line;"
-        + " a zotero .csv export",
+        help="input, either:"
+        + "\n\t* a (quoted) string;"
+        + "\n\t* a .txt file with one title per line;"
+        + "\n\t* a zotero .csv export",
     )
     parser.add_argument(
         "-o",

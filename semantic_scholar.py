@@ -69,7 +69,7 @@ def _lookup(title: str, **options) -> dict:
         "authors",
     ]
     if options.get("add_url", False):
-        fields.append(url)
+        fields.append("url")
     fields = ",".join(fields)
     ret = requests.get(
         url,

@@ -218,16 +218,33 @@ if __name__ == "__main__":
         API_KEY = api_path.read_text().strip()
 
     # parse arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--input-file", type=str, required=True)
-    parser.add_argument("-o", "--output-file", type=str, default=sys.stdout, required=False)
+    parser = argparse.ArgumentParser(
+        epilog="Example use:" + '\n\t$ python3 semantic_scholar.py -i "attention is all you need"'
+    )
+    parser.add_argument(
+        "-i",
+        "--input",
+        type=str,
+        required=True,
+        help="input, either: a (quoted) string;"
+        + " a .txt file with one title per line;"
+        + "a zotero .csv export",
+    )
+    parser.add_argument(
+        "-o",
+        "--output-file",
+        type=str,
+        default=sys.stdout,
+        required=False,
+        help="stdout by default",
+    )
     parser.add_argument("--add-url", action="store_true", default=False)
     args = parser.parse_args()
 
     options = dict(add_url=bool(args.add_url))
 
     # handle logic
-    path = Path(args.input_file)
+    path = Path(args.input)
     if path.suffix == ".csv":  # zotero export into a csv file
         output = bib_from_zotero(path, **options)
         write_output(output, args.output_file)

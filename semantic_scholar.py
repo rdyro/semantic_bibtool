@@ -219,7 +219,10 @@ if __name__ == "__main__":
 
     # parse arguments
     parser = argparse.ArgumentParser(
-        epilog="Example use:" + '\n\t$ python3 semantic_scholar.py -i "attention is all you need"'
+        description="A tool for converting paper titles"
+        + " (with optional author names as keywords) to"
+        + " formatted latex bib format.",
+        epilog="Example use:" + '\n\t$ python3 semantic_scholar.py -i "attention is all you need"',
     )
     parser.add_argument(
         "-i",
@@ -228,7 +231,7 @@ if __name__ == "__main__":
         required=True,
         help="input, either: a (quoted) string;"
         + " a .txt file with one title per line;"
-        + "a zotero .csv export",
+        + " a zotero .csv export",
     )
     parser.add_argument(
         "-o",

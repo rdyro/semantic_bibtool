@@ -1,0 +1,36 @@
+Training-free Transformer Architecture Search 
+Adaptively sketched Bregman projection methods for linear systems 
+Shapley-NAS: Discovering Operation Contribution for Neural Architecture Search 
+Multilevel Optimization for Inverse Problems 
+Lite Pose: Efficient Architecture Design for 2D Human Pose Estimation 
+Global Convergence of MAML and Theory-Inspired Neural Architecture Search for Few-Shot Learning 
+Width is Less Important than Depth in ReLU Neural Networks 
+Stochastic linear optimization never overfits with quadratically-bounded losses on general data 
+Nys-Newton: Nystr\"om-Approximated Curvature for Stochastic Optimization 
+Neighborhood Mixup Experience Replay: Local Convex Interpolation for Improved Sample Efficiency in Continuous Control Tasks 
+Unraveling Attention via Convex Duality: Analysis and Interpretations of Vision Transformers 
+A Comprehensive Survey of Neural Architecture Search: Challenges and Solutions 
+Controllable Dynamic Multi-Task Architectures 
+Rethinking Architecture Design for Tackling Data Heterogeneity in Federated Learning 
+MLP-3D: A MLP-like 3D Architecture with Grouped Time Mixing 
+HyperSegNAS: Bridging One-Shot Neural Architecture Search with 3D Medical Image Segmentation using HyperNet 
+Generalization Bounds via Convex Analysis 
+Variance Minimization in the Wasserstein Space for Invariant Causal Prediction 
+Root-sgd: Sharp nonasymptotics and asymptotic efficiency in a single algorithm 
+The Computation of Approximate Generalized Feedback Nash Equilibria 
+Big-Step-Little-Step: Efficient Gradient Methods for Objectives with Multiple Scales 
+Leakage and the Reproducibility Crisis in ML-based Science 
+Multivariate Quantile Function Forecaster 
+Arch-Graph: Acyclic Architecture Relation Predictor for Task-Transferable Neural Architecture Search 
+DAFormer: Improving Network Architectures and Training Strategies for Domain-Adaptive Semantic Segmentation 
+Cross-Architecture Self-supervised Video Representation Learning 
+Hierarchical Orthogonal Factorization: Sparse Square Matrices 
+SplitNets: Designing Neural Architectures for Efficient Distributed Computing on Head-Mounted Systems 
+On Stability and Generalization of Bilevel Optimization Problem 
+NightLab: A Dual-level Architecture with Hardness Detection for Segmentation at Night 
+Laplace Redux -- Effortless Bayesian Deep Learning 
+Neural networks can learn representations with gradient descent 
+Memorize to Generalize: on the Necessity of Interpolation in High Dimensional Linear Regression 
+Making SGD Parameter-Free 
+
+

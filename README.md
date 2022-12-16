@@ -5,6 +5,28 @@ Automatic generation of bibs from a single title or a list of titles with
 
 This repository is in no way affiliated with Semantic Scholar.
 
+## Installation
+
+1. Obtain an API key from Semantic Scholar: [here](https://www.semanticscholar.org/product/api#Partner-Form).
+2. Paste the API key (a string letters and numbers) into `./semantic_bibtool/api_key.txt`
+3. Install using pip: `pip install .`
+
+## Example usage
+
+```bash
+$ semantic_bibtool -i "attention is all you need"
+```
+prints
+```
+@inproceedings{vaswani2017attention,
+  author = {Vaswani, Ashish and M. Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and N. Gomez, Aidan and Kaiser, Lukasz and Polosukhin, Illia},
+  title = {{A}ttention is {A}ll you {N}eed},
+  booktitle = {{N}{I}{P}{S}},
+  year = {2017},
+}
+```
+
+## Help
 ```
 usage: semantic_bibtool [-h] -i INPUT [-o OUTPUT_FILE] [--add-url]
 

@@ -8,8 +8,9 @@ This repository is in no way affiliated with Semantic Scholar.
 ## Installation
 
 1. Obtain an API key from Semantic Scholar: [here](https://www.semanticscholar.org/product/api#Partner-Form).
-2. Paste the API key (a string letters and numbers) into `./semantic_bibtool/api_key.txt`
-3. Install using pip: `pip install .`
+2. place your API key (a string letters and numbers) into the environment
+   variable `export SEMANTIC_SCHOLAR_API_KEY="..."`.
+3. Install using pip: `pip install semantic_bibtool`
 
 ## Example usage
 

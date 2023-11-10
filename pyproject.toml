@@ -1,21 +1,32 @@
-[tool.poetry]
+[project]
 name = "semantic_bibtool"
-version = "0.1.0"
-description = ""
-authors = ["Robert Dyro <robert.dyro@gmail.com>"]
-license = "MIT"
-include = ["semantic_bibtool/api_key.txt"]
-
-[tool.poetry.dependencies]
-python = "^3.7"
-tqdm = "^4.64.1"
-requests = "^2.28.1"
-
-[tool.poetry.dev-dependencies]
+version = "0.2.0"
+authors = [
+  { name="Robert Dyro", email="robert.dyro@gmail.com" },
+]
+description = "Command Line Tool for generating bibliography files using Semantic Scholar API"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy",
+    "pandas",
+    "tqdm",
+    "requests",
+]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
-[tool.poetry.scripts]
-semantic_bibtool = 'semantic_bibtool:main'
+[project.urls]
+"Homepage" = "https://github.com/rdyro/semantic_bibtool"
+"Bug Tracker" = "https://github.com/rdyro/semantic_bibtool"
+
+[tool.ruff]
+line-length = 100
+

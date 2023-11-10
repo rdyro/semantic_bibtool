@@ -2,6 +2,7 @@
 
 ################################################################################
 import argparse
+import os
 import json
 import re
 import string
@@ -21,6 +22,7 @@ API_CALL_LIMIT = 0.1  # in seconds
 
 
 # low-level utilities ##############################################################################
+
 
 def author_to_bibformat(author: str) -> str:
     """Convert an author's name First- Middle- Last-name format into Last-name, First- Middle-."""
@@ -143,6 +145,7 @@ def rate_throttler(rate_queue):
     except BrokenPipeError:
         return
 
+
 def write_output(output, fname=sys.stdout):
     """Write output to stdout or a file."""
     if isinstance(fname, type(sys.stdout)):
@@ -223,10 +226,19 @@ def bib_from_zotero(fname, **options):
     p = Process(target=rate_throttler, args=(rate_queue,))
     p.start()
     arg_list = list(
-        zip(df["Title"], df["Author"], [rate_queue] * df.shape[0], [options] * df.shape[0])
+        zip(
+            df["Title"],
+            df["Author"],
+            [rate_queue] * df.shape[0],
+            [options] * df.shape[0],
+        )
     )
     bibs = [
-        ret for ret in tqdm(pool.imap(_zotero_f_lookup_title_author, arg_list), total=len(arg_list))
+        ret
+        for ret in tqdm(
+            pool.imap(_zotero_f_lookup_title_author, arg_list),
+            total=len(arg_list),
+        )
     ]
     p.kill(), pool.close()
     return "\n".join(remove_duplicate_bibs(bibs))
@@ -236,42 +248,30 @@ def bib_from_zotero(fname, **options):
 
 
 def main():
-    global API_KEY
-    if len(API_KEY) == 0:
-        api_path = Path(__file__).absolute().parent / "api_key.txt"
-        msg = (
-            "You need to paste an API key into this file at the top"
-            + " or create a file 'api_key.txt' in ./semantic_bibtool folder (next to __init__.py)."
-        )
-        assert api_path.exists(), msg
-        API_KEY = api_path.read_text().strip()
-
     # parse arguments
     parser = argparse.ArgumentParser(
         description="A tool for converting paper titles"
         + " (with optional author names as keywords) to"
         + " formatted latex bib format using Semantic Scholar API."
         + "\n\nNOT AFFILIATED WITH Semantic Scholar."
-        + "\n\nYou need to obtain an API key for Semantic Scholar, which you"
-        + " can request here: https://www.semanticscholar.org/product/api#Partner-Form",
+        + "\n\nYou need to obtain an API key for Semantic Scholar, which you can"
+        + " request here: https://www.semanticscholar.org/product/api#Partner-Form"
+        + ' Export it in your environment as `export SEMANTIC_SCHOLAR_API_KEY="..."`',
         epilog="Example use:"
         + "\n\t$ pip install ."
-        + "\n\t$ semantic_bibtool -i \"attention is all you need\""
-        + "\n\t$ semantic_bibtool -i titles.txt -o references.bib"
-        + "\n\t$ semantic_bibtool -i zotero.csv",
+        + '\n\t$ semantic_bibtool "attention is all you need"'
+        + "\n\t$ semantic_bibtool titles.txt -o references.bib"
+        + "\n\t$ semantic_bibtool zotero.csv",
         formatter_class=RawTextHelpFormatter,
     )
     parser.add_argument(
-        "-i",
-        "--input",
+        "input",
         type=str,
-        required=True,
         help="input, either:"
         + "\n\t* a (quoted) string"
         + "\n\t* a .txt file with one title per line"
         + "\n\t* a zotero .csv export"
-        + "\nThis tool infers data type from file extension, make sure it matches!"
-
+        + "\nThis tool infers data type from file extension, make sure it matches!",
     )
     parser.add_argument(
         "-o",
@@ -281,8 +281,25 @@ def main():
         required=False,
         help="stdout by default",
     )
-    parser.add_argument("--add-url", action="store_true", default=False)
+    parser.add_argument(
+        "--add-url",
+        action="store_true",
+        default=False,
+        help="whether to add the url to the paper in the bib file",
+    )
     args = parser.parse_args()
+
+    global API_KEY
+    if os.environ.get("SEMANTIC_SCHOLAR_API_KEY", None) is not None:
+        API_KEY = os.environ["SEMANTIC_SCHOLAR_API_KEY"].strip()
+    if len(API_KEY) == 0:
+        api_path = Path(__file__).absolute().parent / "api_key.txt"
+        msg = (
+            "You need to paste an API key into this file at the top"
+            + " or create a file 'api_key.txt' in ./semantic_bibtool folder (next to __init__.py)."
+        )
+        assert api_path.exists(), msg
+        API_KEY = api_path.read_text().strip()
 
     options = dict(add_url=bool(args.add_url))
 

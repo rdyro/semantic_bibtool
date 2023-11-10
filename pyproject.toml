@@ -1,6 +1,6 @@
 [project]
 name = "semantic_bibtool"
-version = "0.2.0"
+version = "0.2.1"
 authors = [
   { name="Robert Dyro", email="robert.dyro@gmail.com" },
 ]

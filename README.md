@@ -14,7 +14,7 @@ This repository is in no way affiliated with Semantic Scholar.
 ## Example usage
 
 ```bash
-$ semantic_bibtool -i "attention is all you need"
+$ semantic_bibtool "attention is all you need"
 ```
 prints
 ```
